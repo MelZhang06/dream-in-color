@@ -13,9 +13,23 @@ const previewText=latest?.body?.split('\n\n').slice(0,3).join(' ') ?? latest?.da
 const halo=document.querySelector<HTMLElement>('.cursor-halo');
 const fine=matchMedia('(pointer: fine)');
 if(halo && fine.matches){
- window.addEventListener('pointermove',event=>{halo.style.setProperty('--halo-x',`${event.clientX}px`);halo.style.setProperty('--halo-y',`${event.clientY}px`);halo.classList.add('is-visible');halo.classList.toggle('is-over-link',!!(event.target as Element)?.closest('a'));});
- document.documentElement.addEventListener('pointerleave',()=>halo.classList.remove('is-visible'));
- window.addEventListener('blur',()=>halo.classList.remove('is-visible'));
+ let targetX=-100,targetY=-100,x=-100,y=-100,started=false,last=0;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ window.addEventListener('pointermove',event=>{
+  targetX=event.clientX;targetY=event.clientY;
+  if(!started){x=targetX;y=targetY;started=true;}
+  halo.classList.add('is-visible');halo.classList.toggle('is-over-link',!!(event.target as Element)?.closest('a'));
+ });
+ function follow(time:number){
+  const dt=last?Math.min(time-last,64):16;last=time;
+  const ease=reduced.matches?1:1-Math.exp(-dt/145);
+  x+=(targetX-x)*ease;y+=(targetY-y)*ease;
+  halo!.style.setProperty('--halo-x',`${x}px`);halo!.style.setProperty('--halo-y',`${y}px`);
+  requestAnimationFrame(follow);
+ }
+ requestAnimationFrame(follow);
+ document.documentElement.addEventListener('pointerleave',()=>{halo.classList.remove('is-visible');started=false;});
+ window.addEventListener('blur',()=>{halo.classList.remove('is-visible');started=false;});
 }
 </script>
 </Layout>
