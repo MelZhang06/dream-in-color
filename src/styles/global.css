@@ -40,3 +40,26 @@
 .home-dreamy .home-choice:has(.dream-peek).is-previewing .choice-letter{color:#fff;opacity:.8}
 .home-dreamy .home-choice:has(.dream-peek).is-previewing h2,.home-dreamy .home-choice:has(.dream-peek).is-previewing>p{color:#fff}
 .home-dreamy .home-choice:has(.writing-peek).is-previewing .choice-letter{opacity:.7;color:#87748e}
+
+/* A single-screen mobile cover with matching portrait previews. */
+@media(max-width:760px){
+.home-screen{height:100svh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.home-screen .site-header{flex:0 0 auto;min-height:0;padding-top:18px;padding-bottom:18px;gap:14px}
+.home-screen .wordmark{max-width:none;font-size:1rem}
+.home-screen .site-header nav{gap:18px;font-size:.75rem}
+.home-screen main{flex:1;min-height:0;display:flex}
+.home-screen .quiet-home{display:flex;flex-direction:column;flex:1;min-height:0;padding:24px 0 18px}
+.home-screen .quiet-home h1{flex:0 0 auto;font-size:1.05rem}
+.home-screen .home-choices{flex:1;min-height:0;height:auto;margin-top:24px}
+.home-screen .home-choice{min-height:0;padding:12px 6px}
+.home-screen .choice-preview{width:96%;height:92%;top:50%;left:50%;max-height:none}
+.home-screen .dream-peek img{width:100%;height:100%;object-fit:cover;object-position:center}
+.home-screen .dream-peek figcaption{display:none}
+.home-screen .writing-peek{padding:26px 14px}
+.home-screen .writing-peek .peek-label{font-size:.5rem;letter-spacing:.08em}
+.home-screen .writing-peek h3{font-size:.85rem}
+.home-screen .writing-peek .peek-end{display:none}
+.home-screen .site-footer{flex:0 0 auto;padding:14px 0;gap:6px;font-size:.65rem}
+.home-screen .site-footer>a:first-child,.home-screen .site-footer>a:last-child{display:none}
+.home-screen .site-footer>span{display:block;text-align:center;width:100%}
+}
