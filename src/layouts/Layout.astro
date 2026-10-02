@@ -17,7 +17,7 @@ const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 {canonical && <link rel="canonical" href={canonical} />}
 <slot name="head" />
 </head>
-<body class:list={[{ dark, immersive, "home-dreamy": path === "/" }]}>
+<body class:list={[{ dark, immersive, "home-dreamy": path === "/" || path === "/about/" }]}>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header wrap">
 <a class="wordmark" href="/" aria-label="The Waking Hours & Other Dreams Home">The Waking Hours &amp; Other Dreams<span class="wordmark-star" aria-hidden="true">✳</span></a>
