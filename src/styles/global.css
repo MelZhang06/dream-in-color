@@ -31,3 +31,5 @@
 .immersive .site-footer{background:#181c29;color:#bfc0ce;border-color:#ffffff1c}
 
 @media(max-width:760px){.home-dreamy .home-choices{grid-template-columns:1fr 1fr;min-height:420px}.home-dreamy .home-choice{min-height:420px;padding:12px 6px}.home-dreamy .home-choice+.home-choice{border-top:0;border-left:1px solid #a99cb12c}.home-dreamy .choice-letter{font-size:clamp(3.5rem,16vw,6rem)}.home-dreamy .home-choice>h2{font-size:1.2rem;margin-top:18px}.home-dreamy .home-choice>p{font-size:.75rem;line-height:1.6;max-width:150px}.home-dreamy .choice-preview{width:100%;height:85%}.home-dreamy .writing-peek{padding:25px 15px}.home-dreamy .writing-peek h3{font-size:.9rem;max-width:100%}.home-dreamy .writing-peek p{font-size:.65rem}}
+
+.orbit-intro h1 em{background:linear-gradient(110deg,#a9c8f5 0%,#c7a8e8 32%,#edb1c9 65%,#f2ca9e 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
