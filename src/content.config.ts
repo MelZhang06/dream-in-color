@@ -7,6 +7,6 @@ const writing = defineCollection({
 });
 const dreams = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/dreams' }),
-  schema: z.object({ title: z.string(), titleZh: z.string(), number: z.string(), image: z.string(), alt: z.string(), memoryZh: z.string(), order: z.number() })
+  schema: z.object({ title: z.string(), titleZh: z.string(), number: z.string(), image: z.string(), width: z.number().int().positive().default(1024), height: z.number().int().positive().default(768), alt: z.string(), memoryZh: z.string(), order: z.number() })
 });
 export const collections = { writing, dreams };

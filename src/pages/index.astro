@@ -11,7 +11,7 @@ const originals = [...new Set(essays.map(e => e.data.translationKey))];
 <div class="entry-topline"><span>A journal of waking & dreaming</span><span>01 / The beginning</span></div>
 <div class="entry-composition">
 <div class="entry-title"><span class="eyebrow">A question, before you enter</span><h1 id="dream-question">Do you <br /><span class="dream-word">dream</span> <br />in <em>color?</em></h1><p lang="zh">你会做彩色的梦吗？</p></div>
-{cover && <figure class="dream-window"><a href={`/dreams/${cover.id}/`} aria-label={`Enter dream ${cover.data.number}: ${cover.data.title}`}><img src={cover.data.image} alt={cover.data.alt} width="1024" height="768" fetchpriority="high" /><span class="window-caption">Enter the dream</span></a><figcaption><span>Dream {cover.data.number}</span><span>{cover.data.title}</span></figcaption></figure>}
+{cover && <figure class="dream-window"><a href={`/dreams/${cover.id}/`} aria-label={`Enter dream ${cover.data.number}: ${cover.data.title}`}><img src={cover.data.image} alt={cover.data.alt} width={cover.data.width} height={cover.data.height} fetchpriority="high" /><span class="window-caption">Enter the dream</span></a><figcaption><span>Dream {cover.data.number}</span><span>{cover.data.title}</span></figcaption></figure>}
 <span class="vertical-note" aria-hidden="true">Between waking & dreaming</span>
 </div>
 <div class="entry-bottom"><p>What I think about when awake.<br />What I remember when I wake.</p><a href="#memory">A little further down</a><span aria-hidden="true">✳</span></div>
