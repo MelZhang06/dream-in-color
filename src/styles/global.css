@@ -27,3 +27,5 @@
 
 /* Feather preview edges into the surrounding dreamlike background. */
 .home-dreamy .choice-preview{-webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);-webkit-mask-composite:source-in;mask-composite:intersect}.home-dreamy .writing-peek{box-shadow:none}.home-dreamy .dream-peek figcaption{bottom:12%;left:10%}@media(max-width:760px){.home-dreamy .dream-peek figcaption{bottom:12%;left:10%}}
+
+.immersive .site-footer{background:#181c29;color:#bfc0ce;border-color:#ffffff1c}
