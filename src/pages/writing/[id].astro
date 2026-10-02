@@ -1,0 +1,11 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() { const all=await getCollection('writing'); return all.map(essay=>({params:{id:essay.id},props:{essay,versions:all.filter(e=>e.data.translationKey===essay.data.translationKey)}})); }
+const { essay, versions } = Astro.props;
+const { Content } = await render(essay);
+---
+<Layout title={essay.data.title} description={essay.data.excerpt} lang={essay.data.lang === 'zh' ? 'zh-CN' : 'en'}>
+<Fragment slot="head">{Astro.site && versions.map(version=><link rel="alternate" hreflang={version.data.lang === 'zh' ? 'zh-CN' : 'en'} href={new URL(`/writing/${version.id}/`,Astro.site)} />)}</Fragment>
+<article class="reading"><header class="article-heading"><a class="eyebrow" href="/writing/">Writing · {String(essay.data.order).padStart(3,'0')}</a><h1>{essay.data.title}</h1><nav class="language-switch" aria-label="Article language">{versions.map(version=><a href={`/writing/${version.id}/`} lang={version.data.lang} aria-current={version.id===essay.id?'page':undefined}>{version.data.lang==='en'?'English':'中文'}</a>)}</nav></header><div class="prose" lang={essay.data.lang}><Content /></div><div class="end-mark" aria-hidden="true">✳</div><a class="text-link" href="/writing/">All writing</a></article>
+</Layout>

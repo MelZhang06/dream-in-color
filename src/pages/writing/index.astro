@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+const essays = (await getCollection('writing')).sort((a,b)=>a.data.order-b.data.order);
+const keys = [...new Set(essays.map(e=>e.data.translationKey))];
+---
+<Layout title="Writing"><section class="page-heading wrap"><span class="eyebrow">The journal</span><h1>Writing</h1><p>Life, culture, and thoughts worth keeping.</p></section><section class="wrap index-list" aria-label="Essays">{keys.map(key=>{ const versions=essays.filter(e=>e.data.translationKey===key); const essay=versions.find(e=>e.data.lang==='en')??versions[0]; const zh=versions.find(e=>e.data.lang==='zh'); return <a class="essay-row" href={`/writing/${essay.id}/`}><span class="eyebrow">{String(essay.data.order).padStart(3,'0')}</span><div><h2>{essay.data.title}</h2>{essay.data.lang==='en'&&zh&&<p class="translation-title" lang="zh">{zh.data.title}</p>}<p class="excerpt">{essay.data.excerpt}</p></div><span class="language-label">{versions.map(e=>e.data.lang==='en'?'EN':'中文').join(' / ')}</span></a>})}</section></Layout>

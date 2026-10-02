@@ -1,0 +1,33 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; description?: string; lang?: string; dark?: boolean; }
+const { title = 'Do You Dream in Color?', description = 'Essays from waking life. Images remembered from dreams.', lang = 'en', dark = false } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={description} />
+<meta name="theme-color" content={dark ? '#222427' : '#f8f7f3'} />
+<title>{title === 'Do You Dream in Color?' ? title : `${title} — Do You Dream in Color?`}</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+{canonical && <link rel="canonical" href={canonical} />}
+<slot name="head" />
+</head>
+<body class:list={[{ dark }]}>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header wrap">
+<a class="wordmark" href="/" aria-label="Do You Dream in Color? Home">Dream in Color<span class="wordmark-star" aria-hidden="true">✳</span></a>
+<nav aria-label="Main navigation">
+<a href="/writing/" aria-current={path.startsWith('/writing') ? 'page' : undefined}>Writing</a>
+<a href="/dreams/" aria-current={path.startsWith('/dreams') ? 'page' : undefined}>Dream Archive</a>
+<a href="/about/" aria-current={path.startsWith('/about') ? 'page' : undefined}>About</a>
+</nav>
+</header>
+<main id="main"><slot /></main>
+<footer class="site-footer wrap"><a href="/">Do You Dream in Color?</a><span>A personal journal & dream archive</span><a href="#main">Back to top</a></footer>
+</body>
+</html>

@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+const dreams = (await getCollection('dreams')).sort((a,b) => a.data.order - b.data.order);
+const cover = dreams[0];
+const essays = (await getCollection('writing')).sort((a,b) => a.data.order - b.data.order);
+const originals = [...new Map(essays.map(e => [e.data.translationKey, e.data.translationKey])).keys()];
+---
+<Layout>
+<section class="cover wrap">
+<div class="edition"><span>A personal journal</span><span>Words / Images / In between</span></div>
+<h1>Do You Dream<br />in <em>Color?</em></h1>
+<div class="cover-intro"><p>What I think about when awake.<br />What I remember when I wake.</p><span class="cover-note">你会做彩色的梦吗？</span></div>
+{cover && <figure class="cover-figure"><a href={`/dreams/${cover.id}/`} aria-label={`View ${cover.data.title}`}><img src={cover.data.image} alt={cover.data.alt} width="1024" height="768" fetchpriority="high" /></a><figcaption><span>Dream {cover.data.number}</span><a href={`/dreams/${cover.id}/`}>{cover.data.title}</a><span>Remembered, then reimagined</span></figcaption></figure>}
+</section>
+<section class="writing-section wrap" aria-labelledby="writing-title"><div class="section-heading"><h2 id="writing-title">From waking life</h2><a class="text-link" href="/writing/">All writing</a></div>
+{originals.map(key => { const versions = essays.filter(e => e.data.translationKey === key); const en = versions.find(e => e.data.lang === 'en'); const zh = versions.find(e => e.data.lang === 'zh'); const essay = en ?? versions[0]; return <a class="essay-row" href={`/writing/${essay.id}/`}><span class="eyebrow">Writing · {String(essay.data.order).padStart(3,'0')}</span><div><h3>{essay.data.title}</h3>{en && zh && <p class="translation-title" lang="zh">{zh.data.title}</p>}<p class="excerpt">{essay.data.excerpt}</p></div><span class="language-label">{versions.map(e=> e.data.lang === 'en' ? 'EN' : '中文').join(' / ')}</span></a>; })}
+</section>
+<section class="archive-note wrap"><span class="eyebrow">Dream Archive</span><p>Some things stay<br />after you wake.</p><a class="text-link" href="/dreams/">Enter the archive</a></section>
+</Layout>

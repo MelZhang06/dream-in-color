@@ -1,0 +1,6 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+const dreams = (await getCollection('dreams')).sort((a,b)=>a.data.order-b.data.order);
+---
+<Layout title="Dream Archive"><section class="page-heading wrap"><span class="eyebrow">Remembered, then reimagined</span><h1>Dream Archive</h1><p>Images made with AI, from the dreams I remember.</p></section><section class="dream-list wrap" aria-label="Dreams">{dreams.map(dream=><figure><a href={`/dreams/${dream.id}/`} aria-label={`View ${dream.data.title}`}><img src={dream.data.image} alt={dream.data.alt} width="1024" height="768" /></a><figcaption><span class="eyebrow">Dream {dream.data.number}</span><a href={`/dreams/${dream.id}/`}>{dream.data.title}</a><span lang="zh">{dream.data.titleZh}</span></figcaption></figure>)}</section></Layout>
