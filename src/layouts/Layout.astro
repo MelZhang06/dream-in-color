@@ -22,6 +22,7 @@ const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 <header class="site-header wrap">
 <a class="wordmark" href="/" aria-label="Do You Dream in Color? Home">Dream in Color<span class="wordmark-star" aria-hidden="true">✳</span></a>
 <nav aria-label="Main navigation">
+<a href="/" aria-current={path === "/" ? "page" : undefined}>Home</a>
 <a href="/writing/" aria-current={path.startsWith('/writing') ? 'page' : undefined}>Writing</a>
 <a href="/dreams/" aria-current={path.startsWith('/dreams') ? 'page' : undefined}>Dream Archive</a>
 <a href="/about/" aria-current={path.startsWith('/about') ? 'page' : undefined}>About</a>
