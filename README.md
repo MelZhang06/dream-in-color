@@ -10,7 +10,7 @@ The design combines an independent magazine with a personal creative archive. Qu
 - Translation links generated from a shared content key.
 - Dream archive with uncropped images and bilingual memories.
 - Responsive layouts, semantic HTML, keyboard navigation, visible focus states, and a skip link.
-- Static HTML output; content and navigation work without client-side JavaScript.
+- Static HTML output; content and navigation work without client-side JavaScript. Optional scroll reveals progressively enhance the homepage.
 - Schema-validated Markdown content collections.
 - Optional canonical and language-alternate metadata when `SITE_URL` is configured.
 
@@ -106,7 +106,7 @@ Official references:
 
 **Images keep their identity.** Neutral page styling and preserved image proportions accommodate a changing visual archive without forcing every dream into one aesthetic.
 
-**Small browser footprint.** The site uses system fonts and ships no application framework to the browser. Core reading works offline after downloading the built pages and assets through a local server.
+**Small browser footprint.** The site uses system fonts, a small homepage reveal script, and no application framework in the browser. Core reading works offline after downloading the built pages and assets through a local server.
 
 ## Authorship and rights
 

@@ -4,17 +4,27 @@ import { getCollection } from 'astro:content';
 const dreams = (await getCollection('dreams')).sort((a,b) => a.data.order - b.data.order);
 const cover = dreams[0];
 const essays = (await getCollection('writing')).sort((a,b) => a.data.order - b.data.order);
-const originals = [...new Map(essays.map(e => [e.data.translationKey, e.data.translationKey])).keys()];
+const originals = [...new Set(essays.map(e => e.data.translationKey))];
 ---
-<Layout>
-<section class="cover wrap">
-<div class="edition"><span>A personal journal</span><span>Words / Images / In between</span></div>
-<h1>Do You Dream<br />in <em>Color?</em></h1>
-<div class="cover-intro"><p>What I think about when awake.<br />What I remember when I wake.</p><span class="cover-note">你会做彩色的梦吗？</span></div>
-{cover && <figure class="cover-figure"><a href={`/dreams/${cover.id}/`} aria-label={`View ${cover.data.title}`}><img src={cover.data.image} alt={cover.data.alt} width="1024" height="768" fetchpriority="high" /></a><figcaption><span>Dream {cover.data.number}</span><a href={`/dreams/${cover.id}/`}>{cover.data.title}</a><span>Remembered, then reimagined</span></figcaption></figure>}
+<Layout immersive>
+<section class="dream-entry" aria-labelledby="dream-question">
+<div class="entry-topline"><span>A journal of waking & dreaming</span><span>01 / The beginning</span></div>
+<div class="entry-composition">
+<div class="entry-title"><span class="eyebrow">A question, before you enter</span><h1 id="dream-question">Do you <br /><span class="dream-word">dream</span> <br />in <em>color?</em></h1><p lang="zh">你会做彩色的梦吗？</p></div>
+{cover && <figure class="dream-window"><a href={`/dreams/${cover.id}/`} aria-label={`Enter dream ${cover.data.number}: ${cover.data.title}`}><img src={cover.data.image} alt={cover.data.alt} width="1024" height="768" fetchpriority="high" /><span class="window-caption">Enter the dream</span></a><figcaption><span>Dream {cover.data.number}</span><span>{cover.data.title}</span></figcaption></figure>}
+<span class="vertical-note" aria-hidden="true">Between waking & dreaming</span>
+</div>
+<div class="entry-bottom"><p>What I think about when awake.<br />What I remember when I wake.</p><a href="#memory">A little further down</a><span aria-hidden="true">✳</span></div>
 </section>
-<section class="writing-section wrap" aria-labelledby="writing-title"><div class="section-heading"><h2 id="writing-title">From waking life</h2><a class="text-link" href="/writing/">All writing</a></div>
+<section id="memory" class="memory-passage" aria-label="A remembered moment"><span class="eyebrow">A fragment of Dream 001</span><p class="memory-line">I was asleep.</p><p class="memory-line">Then I heard the others.</p><p class="memory-line last">I opened my eyes.<br /><em>How beautiful.</em></p><p class="memory-original" lang="zh">睁眼望向窗外。心里惊呼：好美。</p><a class="text-link" href={cover ? `/dreams/${cover.id}/` : '/dreams/'}>Read the memory</a></section>
+<div class="waking-world"><section class="writing-section wrap" aria-labelledby="writing-title"><div class="waking-label"><span class="eyebrow">On the other side of sleep</span><span aria-hidden="true">✳</span></div><div class="section-heading"><h2 id="writing-title">Meanwhile,<br /><em>in waking life.</em></h2><a class="text-link" href="/writing/">All writing</a></div>
 {originals.map(key => { const versions = essays.filter(e => e.data.translationKey === key); const en = versions.find(e => e.data.lang === 'en'); const zh = versions.find(e => e.data.lang === 'zh'); const essay = en ?? versions[0]; return <a class="essay-row" href={`/writing/${essay.id}/`}><span class="eyebrow">Writing · {String(essay.data.order).padStart(3,'0')}</span><div><h3>{essay.data.title}</h3>{en && zh && <p class="translation-title" lang="zh">{zh.data.title}</p>}<p class="excerpt">{essay.data.excerpt}</p></div><span class="language-label">{versions.map(e=> e.data.lang === 'en' ? 'EN' : '中文').join(' / ')}</span></a>; })}
-</section>
-<section class="archive-note wrap"><span class="eyebrow">Dream Archive</span><p>Some things stay<br />after you wake.</p><a class="text-link" href="/dreams/">Enter the archive</a></section>
+</section><section class="archive-note wrap"><span class="eyebrow">The collection continues</span><p>Some things stay<br />after you wake.</p><a class="text-link" href="/dreams/">Visit the dream archive</a></section></div>
+<script>
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+if (!reduced.matches && 'IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => { for (const entry of entries) { if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); } } }, { threshold: 0.3 });
+  document.querySelectorAll('.memory-line').forEach(line => { line.classList.add('reveal-ready'); observer.observe(line); });
+}
+</script>
 </Layout>

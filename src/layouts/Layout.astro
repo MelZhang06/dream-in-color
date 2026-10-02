@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
-interface Props { title?: string; description?: string; lang?: string; dark?: boolean; }
-const { title = 'Do You Dream in Color?', description = 'Essays from waking life. Images remembered from dreams.', lang = 'en', dark = false } = Astro.props;
+interface Props { title?: string; description?: string; lang?: string; dark?: boolean; immersive?: boolean; }
+const { title = 'Do You Dream in Color?', description = 'Essays from waking life. Images remembered from dreams.', lang = 'en', dark = false, immersive = false } = Astro.props;
 const path = Astro.url.pathname;
 const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 ---
@@ -11,13 +11,13 @@ const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content={description} />
-<meta name="theme-color" content={dark ? '#222427' : '#f8f7f3'} />
+<meta name="theme-color" content={dark || immersive ? '#181c29' : '#f8f7f3'} />
 <title>{title === 'Do You Dream in Color?' ? title : `${title} — Do You Dream in Color?`}</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 {canonical && <link rel="canonical" href={canonical} />}
 <slot name="head" />
 </head>
-<body class:list={[{ dark }]}>
+<body class:list={[{ dark, immersive }]}>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header wrap">
 <a class="wordmark" href="/" aria-label="Do You Dream in Color? Home">Dream in Color<span class="wordmark-star" aria-hidden="true">✳</span></a>
