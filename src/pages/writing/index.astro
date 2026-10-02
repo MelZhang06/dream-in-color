@@ -3,5 +3,36 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 const essays = (await getCollection('writing')).sort((a,b)=>a.data.order-b.data.order);
 const keys = [...new Set(essays.map(e=>e.data.translationKey))];
+const quotations: Record<string,string> = {
+  'from-here-on': 'Perhaps the point lies precisely in the fact that we do it neither quickly nor perfectly.',
+  'things-that-happen-naturally': 'An opportunity may arrive by chance. Being able to make something of it rarely does.'
+};
 ---
-<Layout title="Writing"><section class="page-heading wrap"><span class="eyebrow">The journal</span><h1>Writing</h1><p>Life, culture, and thoughts worth keeping.</p></section><section class="wrap index-list" aria-label="Essays">{keys.map(key=>{ const versions=essays.filter(e=>e.data.translationKey===key); const essay=versions.find(e=>e.data.lang==='en')??versions[0]; const zh=versions.find(e=>e.data.lang==='zh'); return <a class="essay-row" href={`/writing/${essay.id}/`}><span class="eyebrow">{String(essay.data.order).padStart(3,'0')}</span><div><h2>{essay.data.title}</h2>{essay.data.lang==='en'&&zh&&<p class="translation-title" lang="zh">{zh.data.title}</p>}<p class="excerpt">{essay.data.excerpt}</p></div><span class="language-label">{versions.map(e=>e.data.lang==='en'?'EN':'中文').join(' / ')}</span></a>})}</section></Layout>
+<Layout title="Writing">
+<section class="journal-intro wrap">
+  <span class="eyebrow">Notes from the waking hours</span>
+  <h1>A few things<br /><em>worth keeping.</em></h1>
+  <p>Life, culture, and the thoughts that linger.</p>
+  <span class="journal-count">{String(keys.length).padStart(2,'0')} essays · English & 中文</span>
+</section>
+<section class="loose-pages wrap" aria-label="Essays">
+{keys.map((key,index)=>{
+ const versions=essays.filter(e=>e.data.translationKey===key);
+ const essay=versions.find(e=>e.data.lang==='en')??versions[0];
+ const zh=versions.find(e=>e.data.lang==='zh');
+ return <article class="journal-leaf" style={`--leaf-angle:${index%2===0?'-2':'2'}deg`}>
+  <div class="leaf-top"><span class="eyebrow">{index===0?'On beginning':'On chance'}</span><span class="leaf-number">{String(essay.data.order).padStart(3,'0')}</span></div>
+  <a class="leaf-entry" href={`/writing/${essay.id}/`}>
+    <h2>{essay.data.title}</h2>
+    {zh&&<p class="leaf-chinese" lang="zh">{zh.data.title}</p>}
+    <blockquote>{quotations[key]??essay.data.excerpt}</blockquote>
+    <span class="leaf-invitation">Read this essay <span aria-hidden="true">↗</span></span>
+  </a>
+  <nav class="leaf-languages" aria-label={`Read ${essay.data.title} in your language`}>
+    {versions.map(version=><a href={`/writing/${version.id}/`} lang={version.data.lang}>{version.data.lang==='en'?'English':'中文'}<span aria-hidden="true"> ↗</span></a>)}
+  </nav>
+ </article>
+})}
+</section>
+<p class="journal-postscript wrap">A small record of being here.</p>
+</Layout>
