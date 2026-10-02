@@ -22,3 +22,5 @@
 
 /* Keep the entrances near the centre while previews use the full half-page. */
 @media(min-width:761px){.home-dreamy .home-choice>.choice-letter,.home-dreamy .home-choice>h2,.home-dreamy .home-choice>p{position:relative;left:max(0px,calc(50% - 225px));top:-65px}.home-dreamy .home-choice+.home-choice>.choice-letter,.home-dreamy .home-choice+.home-choice>h2,.home-dreamy .home-choice+.home-choice>p{left:min(0px,calc(225px - 50%))}}
+
+.wordmark{white-space:normal;line-height:1.3;max-width:540px}@media(max-width:760px){.wordmark{font-size:1.05rem;max-width:290px}.wordmark-star{font-size:1.2rem;margin-left:8px}}

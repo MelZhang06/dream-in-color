@@ -1,4 +1,4 @@
-# Do You Dream in Color?
+# The Waking Hours & Other Dreams
 
 A bilingual personal journal and dream archive: essays from waking life, and AI-generated images based on remembered dreams.
 
