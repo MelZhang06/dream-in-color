@@ -10,6 +10,21 @@ const previewText=latest?.body?.split('\n\n').slice(0,3).join(' ') ?? latest?.da
 <section class="quiet-home wrap" aria-labelledby="home-title"><h1 id="home-title">Between waking & dreaming</h1><div class="home-choices"><a href="/writing/" class="home-choice" aria-label="Writing — What I think about when awake"><span class="choice-letter" aria-hidden="true">W</span><h2>Writing</h2><p>What I think about when awake.</p>{latest && <div class="choice-preview writing-peek" aria-hidden="true"><span class="peek-label">Writing · English</span><h3 lang={latest.data.lang}>{latest.data.title}</h3><p lang={latest.data.lang}>{previewText}</p><span class="peek-end">✳</span></div>}</a><a href="/dreams/" class="home-choice" aria-label="Dreams — What I remember when I wake"><span class="choice-letter" aria-hidden="true">D</span><h2>Dreams</h2><p>What I remember when I wake.</p>{firstDream && <figure class="choice-preview dream-peek" aria-hidden="true"><img src={firstDream.data.image} alt="" width={firstDream.data.width} height={firstDream.data.height}/><figcaption>Dream {firstDream.data.number} · {firstDream.data.title}</figcaption></figure>}</a></div></section>
 <div class="cursor-halo" aria-hidden="true"></div>
 <script>
+// Touch uses an explicit preview step instead of browser-dependent hover.
+const touchChoices=Array.from(document.querySelectorAll<HTMLAnchorElement>('.home-choice'));
+const touchInput=matchMedia('(hover: none), (pointer: coarse)');
+let previewChoice:HTMLAnchorElement|null=null;
+touchChoices.forEach(choice=>choice.addEventListener('click',event=>{
+ if(!touchInput.matches)return;
+ if(previewChoice===choice)return;
+ event.preventDefault();
+ touchChoices.forEach(item=>item.classList.remove('is-previewing'));
+ choice.classList.add('is-previewing');previewChoice=choice;
+}));
+document.addEventListener('click',event=>{
+ if((event.target as Element)?.closest('.home-choice'))return;
+ touchChoices.forEach(item=>item.classList.remove('is-previewing'));previewChoice=null;
+});
 const halo=document.querySelector<HTMLElement>('.cursor-halo');
 const fine=matchMedia('(pointer: fine)');
 if(halo && fine.matches){

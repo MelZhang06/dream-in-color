@@ -33,3 +33,10 @@
 @media(max-width:760px){.home-dreamy .home-choices{grid-template-columns:1fr 1fr;min-height:420px}.home-dreamy .home-choice{min-height:420px;padding:12px 6px}.home-dreamy .home-choice+.home-choice{border-top:0;border-left:1px solid #a99cb12c}.home-dreamy .choice-letter{font-size:clamp(3.5rem,16vw,6rem)}.home-dreamy .home-choice>h2{font-size:1.2rem;margin-top:18px}.home-dreamy .home-choice>p{font-size:.75rem;line-height:1.6;max-width:150px}.home-dreamy .choice-preview{width:100%;height:85%}.home-dreamy .writing-peek{padding:25px 15px}.home-dreamy .writing-peek h3{font-size:.9rem;max-width:100%}.home-dreamy .writing-peek p{font-size:.65rem}}
 
 .orbit-intro h1 em{background:linear-gradient(110deg,#a9c8f5 0%,#c7a8e8 32%,#edb1c9 65%,#f2ca9e 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Explicit first-tap preview for both mobile entrances. */
+.home-dreamy .home-choice.is-previewing .choice-preview{opacity:1;visibility:visible;transform:translate(-50%,-50%);clip-path:inset(0);transition-delay:0s}
+.home-dreamy .home-choice.is-previewing .choice-letter{transform:translateY(-5px)}
+.home-dreamy .home-choice:has(.dream-peek).is-previewing .choice-letter{color:#fff;opacity:.8}
+.home-dreamy .home-choice:has(.dream-peek).is-previewing h2,.home-dreamy .home-choice:has(.dream-peek).is-previewing>p{color:#fff}
+.home-dreamy .home-choice:has(.writing-peek).is-previewing .choice-letter{opacity:.7;color:#87748e}
