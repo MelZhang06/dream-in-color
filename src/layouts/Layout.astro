@@ -20,7 +20,7 @@ const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 <body class:list={[{ dark, immersive, "home-dreamy": path === "/" || path === "/about/" }]}>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header wrap">
-<a class="wordmark" href="/" aria-label="The Waking Hours & Other Dreams Home">The Waking Hours &amp; Other Dreams<span class="wordmark-star" aria-hidden="true">✳</span></a>
+<a class="wordmark" href="/" aria-label="The Waking Hours & Other Dreams Home">The Waking Hours &amp; Other Dreams</a>
 <nav aria-label="Main navigation">
 <a href="/" aria-current={path === "/" ? "page" : undefined}>Home</a>
 <a href="/writing/" aria-current={path.startsWith('/writing') ? 'page' : undefined}>Writing</a>
