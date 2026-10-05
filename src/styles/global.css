@@ -95,3 +95,14 @@
 .writing-room .prose{color:#514b53}
 @media(max-width:760px){.journal-intro{padding:42px 0 32px}.journal-intro h1{font-size:3rem}.journal-count{position:static;display:block;margin-top:25px}.loose-pages{grid-template-columns:1fr;gap:38px;padding:12px 8px 30px}.journal-leaf{padding:26px 26px 22px;transform:rotate(-1deg)}.journal-leaf:nth-child(even){margin-top:0;transform:rotate(1deg)}.leaf-entry h2{font-size:1.85rem}.leaf-entry blockquote{font-size:1.5rem;margin:28px 0}.journal-postscript{padding:15px 0 45px}}
 @media(prefers-reduced-motion:reduce){.journal-leaf,.leaf-invitation>span{transition:none}.journal-leaf:hover,.journal-leaf:focus-within{transform:rotate(var(--leaf-angle))}}
+
+/* Let transparent journal navigation scroll with its page, without overlapping text. */
+.about-screen .site-header,.writing-room .site-header{position:relative;top:auto}
+.about-screen .site-header{min-height:90px}
+.about-screen .about-page{padding:42px 0 55px}
+.about-screen .about-page h1{font-size:clamp(2.8rem,4.5vw,4rem);line-height:1.08;margin:14px 0 26px}
+.about-screen .about-page .prose{font-size:1.05rem;line-height:1.75}
+.about-screen .about-page .prose p+p{margin-top:1em}
+.about-screen .about-page blockquote{margin:28px 0 20px;padding-top:24px;font-size:1.6rem;line-height:1.4}
+.about-screen .about-page blockquote cite{margin-top:12px;font-size:.8rem}
+@media(max-width:760px){.about-screen .site-header{min-height:0}.about-screen .about-page{padding:30px 0 40px}.about-screen .about-page h1{font-size:2.8rem}.about-screen .about-page blockquote{font-size:1.35rem}}
