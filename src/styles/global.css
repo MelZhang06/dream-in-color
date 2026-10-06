@@ -106,3 +106,13 @@
 .about-screen .about-page blockquote{margin:28px 0 20px;padding-top:24px;font-size:1.6rem;line-height:1.4}
 .about-screen .about-page blockquote cite{margin-top:12px;font-size:.8rem}
 @media(max-width:760px){.about-screen .site-header{min-height:0}.about-screen .about-page{padding:30px 0 40px}.about-screen .about-page h1{font-size:2.8rem}.about-screen .about-page blockquote{font-size:1.35rem}}
+
+/* One-line editorial wordmark: waking ink and softly coloured dreams. */
+.site-header .wordmark{font-family:'Bodoni Moda','Didot','Bodoni 72',Georgia,serif;font-size:1.45rem;font-weight:400;letter-spacing:-.025em;line-height:1.5;white-space:nowrap;max-width:none;flex-shrink:0}
+.site-header .wordmark:hover{text-decoration:none}
+.wordmark-amp{font-style:italic;color:#9a849e}
+.site-header .wordmark em{font-weight:400;background:linear-gradient(110deg,#9277a2,#718d9e 55%,#a27b93);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dark .wordmark-amp,.immersive .wordmark-amp{color:#c7b1d2}
+.dark .site-header .wordmark em,.immersive .site-header .wordmark em{background-image:linear-gradient(110deg,#d0b3df,#a8c8d8 55%,#ddb9ce)}
+@media(max-width:1000px) and (min-width:761px){.site-header .wordmark{font-size:1.2rem}.site-header nav{gap:22px}}
+@media(max-width:760px){.site-header .wordmark{font-size:clamp(.85rem,3.75vw,1.3rem);letter-spacing:-.04em;width:max-content;max-width:100%}.home-screen .site-header .wordmark{font-size:clamp(.85rem,3.75vw,1.3rem)}}

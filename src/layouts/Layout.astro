@@ -13,6 +13,9 @@ const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 <meta name="description" content={description} />
 <meta name="theme-color" content={dark || immersive ? '#181c29' : '#f8f7f3'} />
 <title>{title === 'The Waking Hours & Other Dreams' ? title : `${title} — The Waking Hours & Other Dreams`}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 {canonical && <link rel="canonical" href={canonical} />}
 <slot name="head" />
@@ -20,7 +23,7 @@ const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 <body class:list={[{ dark, immersive, "about-screen": path === "/about/", "writing-room": path.startsWith("/writing"), "home-screen": path === "/", "home-dreamy": path === "/" || path === "/about/" }]}>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header wrap">
-<a class="wordmark" href="/" aria-label="The Waking Hours & Other Dreams Home">The Waking Hours &amp; Other Dreams</a>
+<a class="wordmark" href="/" aria-label="The Waking Hours & Other Dreams Home"><span>The Waking Hours</span> <span class="wordmark-amp">&amp;</span> <em>Other Dreams</em></a>
 <nav aria-label="Main navigation">
 <a href="/" aria-current={path === "/" ? "page" : undefined}>Home</a>
 <a href="/writing/" aria-current={path.startsWith('/writing') ? 'page' : undefined}>Writing</a>
