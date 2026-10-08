@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/editorial.css';
 interface Props { title?: string; description?: string; lang?: string; dark?: boolean; immersive?: boolean; }
 const { title = 'The Waking Hours & Other Dreams', description = 'Essays from waking life. Images remembered from dreams.', lang = 'en', dark = false, immersive = false } = Astro.props;
 const path = Astro.url.pathname;
@@ -20,7 +21,7 @@ const canonical = Astro.site ? new URL(path, Astro.site) : undefined;
 {canonical && <link rel="canonical" href={canonical} />}
 <slot name="head" />
 </head>
-<body class:list={[{ dark, immersive, "about-screen": path === "/about/", "writing-room": path.startsWith("/writing"), "home-screen": path === "/", "home-dreamy": path === "/" || path === "/about/" }]}>
+<body class:list={["threshold-design", { dark, immersive, "about-screen": path === "/about/", "writing-room": path.startsWith("/writing"), "home-screen": path === "/", "home-dreamy": path === "/" || path === "/about/" }]}>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header wrap">
 <a class="wordmark" href="/" aria-label="The Waking Hours & Other Dreams Home"><span>The Waking Hours</span> <span class="wordmark-amp">&amp;</span> <em>Other Dreams</em></a>

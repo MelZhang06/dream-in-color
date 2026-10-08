@@ -10,8 +10,8 @@ const quotations: Record<string,string> = {
 ---
 <Layout title="Writing">
 <section class="journal-intro wrap">
-  <span class="eyebrow">Notes from the waking hours</span>
-  <h1>A few things<br /><em>worth keeping.</em></h1>
+  <span class="eyebrow">01 / The waking hours</span>
+  <h1>Thoughts that<br /><em>stay with me.</em></h1>
   <p>Life, culture, and the thoughts that linger.</p>
   <span class="journal-count">{String(keys.length).padStart(2,'0')} essays · English & 中文</span>
 </section>
@@ -21,7 +21,7 @@ const quotations: Record<string,string> = {
  const essay=versions.find(e=>e.data.lang==='en')??versions[0];
  const zh=versions.find(e=>e.data.lang==='zh');
  return <article class="journal-leaf" style={`--leaf-angle:${index%2===0?'-2':'2'}deg`}>
-  <div class="leaf-top"><span class="eyebrow">{index===0?'On beginning':'On chance'}</span><span class="leaf-number">{String(essay.data.order).padStart(3,'0')}</span></div>
+  <div class="leaf-top"><span class="eyebrow">{key==='from-here-on'?'On beginning':key==='things-that-happen-naturally'?'On chance':'An essay'}</span><span class="leaf-number">{String(essay.data.order).padStart(3,'0')}</span></div>
   <a class="leaf-entry" href={`/writing/${essay.id}/`}>
     <h2>{essay.data.title}</h2>
     {zh&&<p class="leaf-chinese" lang="zh">{zh.data.title}</p>}
