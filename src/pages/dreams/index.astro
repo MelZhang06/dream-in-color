@@ -46,5 +46,22 @@ window.setInterval(()=>{
  batch=(batch+visibleCount)%Math.max(bubbles.length,1);
  bubbles.forEach((bubble,i)=>{const slot=(i-batch+bubbles.length)%bubbles.length;bubble.classList.toggle('gallery-visible',slot<8);bubble.classList.toggle('mobile-visible',slot<4);for(let n=0;n<8;n++)bubble.classList.toggle(`bubble-slot-${n}`,slot%8===n);for(let n=0;n<4;n++)bubble.classList.toggle(`mobile-slot-${n}`,slot%4===n);});
 },26000);
+// A soft parallax shift gives the bubbles distinct distances from the viewer.
+if(water && matchMedia('(pointer: fine)').matches){
+ let x=0,y=0,targetX=0,targetY=0,frame=0;
+ const space=water;
+ function settle(){
+  x+=(targetX-x)*.035;y+=(targetY-y)*.035;
+  space.style.setProperty('--pointer-x',`${x.toFixed(2)}px`);
+  space.style.setProperty('--pointer-y',`${y.toFixed(2)}px`);
+  if(Math.abs(targetX-x)+Math.abs(targetY-y)>.05)frame=requestAnimationFrame(settle);else frame=0;
+ }
+ space.addEventListener('pointermove',event=>{
+  if(reduced.matches||paused||opening||document.body.classList.contains('memory-open'))return;
+  const r=space.getBoundingClientRect();targetX=((event.clientX-r.left)/r.width-.5)*28;targetY=((event.clientY-r.top)/r.height-.5)*20;
+  if(!frame)frame=requestAnimationFrame(settle);
+ });
+ space.addEventListener('pointerleave',()=>{targetX=0;targetY=0;if(!frame)frame=requestAnimationFrame(settle);});
+}
 updatePause();
 </script></Layout>
