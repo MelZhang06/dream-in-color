@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from 'astro:content';
+const {compact=false}=Astro.props;
+const dreams=(await getCollection('dreams')).sort((a,b)=>a.data.order-b.data.order);
+const memories=await Promise.all(dreams.map(async dream=>({dream,...await render(dream)})));
+---
+<div class:list={["dream-water",{"home-bubble-water":compact}]} data-dream-water data-desktop-count={compact?4:8} data-mobile-count={compact?2:4}>
+{dreams.map((dream,index)=><button type="button" class:list={['dream-bubble',`bubble-slot-${index%8}`,`mobile-slot-${index%4}`,{'gallery-visible':index<(compact?4:8),'mobile-visible':index<(compact?2:4)}]} style={`--slot:${index};--delay:-${index*3}s;--duration:${23+index*2}s;`} data-bubble={index} aria-haspopup="dialog" aria-controls={`memory-${dream.data.number}`} aria-label={`Open dream ${dream.data.number}: ${dream.data.title}`}><span class="bubble-skin"><img src={dream.data.image} alt="" width={dream.data.width} height={dream.data.height} loading={index<4?'eager':'lazy'}/></span><span class="bubble-glint" aria-hidden="true"></span><span class="bubble-name">{dream.data.title}</span></button>)}
+
+</div>
+<div class="bubble-bottom"><p>Touch a dream.</p><button type="button" class="bubble-pause" data-bubble-pause aria-label="Pause floating dreams">Pause</button></div>
+
+{memories.map(({dream,Content})=><dialog class="dream-reveal" id={`memory-${dream.data.number}`} aria-labelledby={`title-${dream.data.number}`}><button class="memory-close" type="button" aria-label="Close dream">Close <span aria-hidden="true">×</span></button><div class="reveal-layout"><figure><img src={dream.data.image} alt={dream.data.alt} width={dream.data.width} height={dream.data.height}/></figure><div class="reveal-memory"><span class="eyebrow">Dream {dream.data.number}</span><h2 id={`title-${dream.data.number}`}>{dream.data.title}</h2><div class="memory-english"><Content/></div><p class="memory-chinese" lang="zh">{dream.data.memoryZh}</p><a class="text-link" href={`/dreams/${dream.id}/`}>Visit this dream ↗</a></div></div></dialog>)}
+<script>
+const water=document.querySelector<HTMLElement>('[data-dream-water]');
+const bubbles=Array.from(document.querySelectorAll<HTMLButtonElement>('[data-bubble]'));
+const dialogs=Array.from(document.querySelectorAll<HTMLDialogElement>('.dream-reveal'));
+const pause=document.querySelector<HTMLButtonElement>('[data-bubble-pause]');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+const mobile=matchMedia('(max-width: 760px)');
+let paused=reduced.matches, opening=false, batch=0;
+let returnTo:HTMLButtonElement|null=null;
+function updatePause(){water?.classList.toggle('is-paused',paused);if(pause){pause.textContent=paused?'Play':'Pause';pause.setAttribute('aria-label',paused?'Play floating dreams':'Pause floating dreams');}}
+pause?.addEventListener('click',()=>{paused=!paused;updatePause();});
+reduced.addEventListener('change',()=>{paused=reduced.matches;updatePause();});
+bubbles.forEach(bubble=>bubble.addEventListener('click',()=>{
+ if(opening)return;
+ const dialog=document.getElementById(bubble.getAttribute('aria-controls')??'') as HTMLDialogElement|null;
+ if(!dialog)return;
+ opening=true;returnTo=bubble;water?.classList.add('is-opening');bubble.classList.add('is-bursting');
+ window.setTimeout(()=>{dialog.showModal();document.body.classList.add('memory-open');opening=false;},reduced.matches?0:480);
+}));
+dialogs.forEach(dialog=>{
+ dialog.querySelector('.memory-close')?.addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();});
+ dialog.addEventListener('close',()=>{document.body.classList.remove('memory-open');water?.classList.remove('is-opening');returnTo?.classList.remove('is-bursting');returnTo?.focus();});
+});
+// Phones show four memories at a time; the remaining dreams drift in quietly.
+window.setInterval(()=>{
+ if(paused||opening||document.hidden||dialogs.some(dialog=>dialog.open)||water?.matches(':focus-within'))return;
+ const desktopCount=Number(water?.dataset.desktopCount??8),mobileCount=Number(water?.dataset.mobileCount??4);
+ const visibleCount=mobile.matches?mobileCount:desktopCount;
+ if(bubbles.length<=visibleCount)return;
+ batch=(batch+visibleCount)%Math.max(bubbles.length,1);
+ bubbles.forEach((bubble,i)=>{const slot=(i-batch+bubbles.length)%bubbles.length;bubble.classList.toggle('gallery-visible',slot<desktopCount);bubble.classList.toggle('mobile-visible',slot<mobileCount);for(let n=0;n<8;n++)bubble.classList.toggle(`bubble-slot-${n}`,slot%desktopCount===n);for(let n=0;n<4;n++)bubble.classList.toggle(`mobile-slot-${n}`,slot%mobileCount===n);});
+},26000);
+// A soft parallax shift gives the bubbles distinct distances from the viewer.
+if(water && matchMedia('(pointer: fine)').matches){
+ let x=0,y=0,targetX=0,targetY=0,frame=0;
+ const space=water;
+ function settle(){
+  x+=(targetX-x)*.035;y+=(targetY-y)*.035;
+  space.style.setProperty('--pointer-x',`${x.toFixed(2)}px`);
+  space.style.setProperty('--pointer-y',`${y.toFixed(2)}px`);
+  if(Math.abs(targetX-x)+Math.abs(targetY-y)>.05)frame=requestAnimationFrame(settle);else frame=0;
+ }
+ space.addEventListener('pointermove',event=>{
+  if(reduced.matches||paused||opening||document.body.classList.contains('memory-open'))return;
+  const r=space.getBoundingClientRect();targetX=((event.clientX-r.left)/r.width-.5)*28;targetY=((event.clientY-r.top)/r.height-.5)*20;
+  if(!frame)frame=requestAnimationFrame(settle);
+ });
+ space.addEventListener('pointerleave',()=>{targetX=0;targetY=0;if(!frame)frame=requestAnimationFrame(settle);});
+}
+updatePause();
+</script>

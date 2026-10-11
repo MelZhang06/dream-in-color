@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-const firstDream=(await getCollection('dreams')).sort((a,b)=>a.data.order-b.data.order)[0];
+import DreamBubbles from '../components/DreamBubbles.astro';
 ---
 <Layout title="Between waking & dreaming">
 <section class="threshold-home wrap" aria-labelledby="home-title">
@@ -12,18 +11,18 @@ const firstDream=(await getCollection('dreams')).sort((a,b)=>a.data.order-b.data
 <div class="waking-fragment"><span class="fragment-source">From Here On</span><blockquote>Perhaps the point<br class="desktop-break" /> lies precisely in the fact<br class="desktop-break" /> that we do it <em>neither<br class="desktop-break" /> quickly nor perfectly.</em></blockquote><span class="fragment-note">A thought, kept.</span></div>
 <div class="threshold-label"><h2>Writing</h2><p>What I think about when awake.</p></div>
 </a>
-<a href="/dreams/" class="threshold-entrance dreaming-entrance">
-<div class="threshold-chapter"><span>02 / Dreaming</span><span aria-hidden="true">↗</span></div>
-{firstDream && <figure class="threshold-window"><img src={firstDream.data.image} alt={firstDream.data.alt} width={firstDream.data.width} height={firstDream.data.height} fetchpriority="high"/><figcaption><span>Dream {firstDream.data.number}</span><span>{firstDream.data.title}</span></figcaption></figure>}
-<div class="threshold-label"><h2>Dreams</h2><p>What I remember when I wake.</p></div>
-</a>
+<div class="threshold-entrance dreaming-entrance home-dream-preview">
+<a href="/dreams/" class="threshold-chapter"><span>02 / Dreaming</span><span aria-hidden="true">↗</span></a>
+<div class="home-bubble-preview"><DreamBubbles compact /></div>
+<a href="/dreams/" class="threshold-label"><h2>Dreams</h2><p>What I remember when I wake.</p></a>
+</div>
 </div>
 <div class="threshold-colophon"><span>Words written by hand.</span><span>Images carried back from sleep.</span></div>
 </section>
 <div class="cursor-halo" aria-hidden="true"></div>
 <script>
 // Touch uses an explicit preview step instead of browser-dependent hover.
-const touchChoices=Array.from(document.querySelectorAll<HTMLAnchorElement>('.threshold-entrance'));
+const touchChoices=Array.from(document.querySelectorAll<HTMLAnchorElement>('a.threshold-entrance'));
 const touchInput=matchMedia('(hover: none), (pointer: coarse)');
 let previewChoice:HTMLAnchorElement|null=null;
 touchChoices.forEach(choice=>choice.addEventListener('click',event=>{
