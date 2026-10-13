@@ -191,3 +191,18 @@ body.memory-open{overflow:hidden}.dream-reveal{width:min(1200px,calc(100% - 80px
 .rising-water .dream-bubble.is-auto-popping .bubble-glint{animation:memory-ripple .7s ease-out forwards}
 .rising-water .bubble-name{display:none}
 @media(prefers-reduced-motion:reduce){.rising-water .dream-bubble.is-auto-popping .bubble-skin,.rising-water .dream-bubble.is-auto-popping .bubble-glint{animation:none}}
+
+/* The shell ruptures first; detached rainbow arcs travel beyond its edge. */
+.bubble-spray{position:absolute;inset:0;pointer-events:none;opacity:0}
+.bubble-spray>span{position:absolute;left:var(--px);top:var(--py);width:10px;height:5px;border-radius:70% 30%;border-top:2px solid #b5a0d6;border-right:1px solid #e8c3dd;background:linear-gradient(100deg,#fff9,#a4d4e87a,#d0add77a);box-shadow:0 0 4px #c2a7df55;opacity:0;transform:translate(-50%,-50%) rotate(var(--angle))}
+.dream-bubble:is(.is-auto-popping,.is-bursting) .bubble-spray{opacity:1}
+.dream-bubble:is(.is-auto-popping,.is-bursting) .bubble-spray>span{animation:shell-fragment .95s cubic-bezier(.15,.6,.3,1) var(--spark-delay) both}
+.rising-water .dream-bubble.is-auto-popping .bubble-skin,.dream-bubble.is-bursting .bubble-skin{animation:shell-rupture .65s ease-out forwards}
+.rising-water .dream-bubble.is-auto-popping .bubble-glint,.dream-bubble.is-bursting .bubble-glint{animation:shell-wave .9s ease-out forwards}
+@keyframes shell-rupture{0%{transform:scale(1);opacity:1}22%{transform:scale(1.13);opacity:1;filter:brightness(1.25)}35%{transform:scale(1.17);opacity:.12}55%,100%{transform:scale(1.2);opacity:0}}
+@keyframes shell-wave{0%{transform:scale(1);opacity:.9}25%{transform:scale(1.15);opacity:1}100%{transform:scale(1.8);opacity:0;filter:blur(2px)}}
+@keyframes shell-fragment{0%,15%{opacity:0;transform:translate(-50%,-50%) rotate(var(--angle)) scale(.6)}25%{opacity:1}65%{opacity:.75}100%{opacity:0;transform:translate(calc(-50% + var(--size)*var(--dx)),calc(-50% + var(--size)*var(--dy))) rotate(calc(var(--angle) + 70deg)) scale(.2)}}
+.dream-water:is(.is-paused,.is-opening) .is-auto-popping :is(.bubble-skin,.bubble-glint,.bubble-spray>span){animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.dream-bubble .bubble-spray{display:none}.dream-bubble:is(.is-auto-popping,.is-bursting) :is(.bubble-skin,.bubble-glint){animation:none}}
+.home-bubble-preview .bubble-spray>span{width:13px;height:6px;border-top:2px solid #a58abb;border-right:1px solid #d7aac9;box-shadow:0 0 5px #b391d14d}
+.home-bubble-preview .dream-bubble:is(.is-auto-popping,.is-bursting) .bubble-glint{border-color:#a995c05c;box-shadow:0 0 7px #cab4e33d}
