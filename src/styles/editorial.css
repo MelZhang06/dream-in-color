@@ -183,3 +183,11 @@ body.memory-open{overflow:hidden}.dream-reveal{width:min(1200px,calc(100% - 80px
 
 /* Random positions are measured in the available half-page, with drift clearance. */
 .home-bubble-preview .home-bubble-water .dream-bubble{left:var(--random-x,var(--x));top:var(--random-y,var(--y));--size:var(--random-size,140px)!important}
+
+/* Continuous, staggered ascents end in a soft ripple and a new memory. */
+.home-bubble-preview .rising-water{overflow:clip;mask-image:linear-gradient(transparent,#000 5%,#000 88%,transparent);perspective:none}
+.home-bubble-preview .rising-water .dream-bubble{animation:none!important;will-change:top,transform,opacity;transition:none;--depth:0px!important}
+.rising-water .dream-bubble.is-auto-popping .bubble-skin{animation:memory-pop .7s ease-out forwards}
+.rising-water .dream-bubble.is-auto-popping .bubble-glint{animation:memory-ripple .7s ease-out forwards}
+.rising-water .bubble-name{display:none}
+@media(prefers-reduced-motion:reduce){.rising-water .dream-bubble.is-auto-popping .bubble-skin,.rising-water .dream-bubble.is-auto-popping .bubble-glint{animation:none}}
