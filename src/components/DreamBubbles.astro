@@ -35,7 +35,41 @@ dialogs.forEach(dialog=>{
  dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();});
  dialog.addEventListener('close',()=>{document.body.classList.remove('memory-open');water?.classList.remove('is-opening');returnTo?.classList.remove('is-bursting');returnTo?.focus();});
 });
-// Phones show four memories at a time; the remaining dreams drift in quietly.
+// Scatter each group independently, reserving space for the slow drift.
+function scatter(){
+ if(!water?.classList.contains('home-bubble-water'))return;
+ const width=water.clientWidth,height=water.clientHeight;
+ if(!width||!height)return;
+ const visible=bubbles.filter(bubble=>getComputedStyle(bubble).display!=='none');
+ type Orb={x:number;y:number;size:number};
+ let best:Orb[]=[],bestScore=-Infinity;
+ for(let attempt=0;attempt<1800;attempt++){
+  const orbs:Orb[]=[];
+  for(let i=0;i<visible.length;i++){
+   const base=mobile.matches?Math.min(width*.62,height*.4):Math.min(width*.24,height*.39);
+   const size=Math.max(64,base*(.78+Math.random()*.36));
+   const margin=size*.54+(mobile.matches?18:27);
+   orbs.push({size,x:margin+Math.random()*Math.max(0,width-2*margin),y:margin+Math.random()*Math.max(0,height-2*margin)});
+  }
+  let score=Infinity;
+  for(let i=0;i<orbs.length;i++)for(let j=i+1;j<orbs.length;j++){
+   const a=orbs[i],b=orbs[j];score=Math.min(score,Math.hypot(a.x-b.x,a.y-b.y)/((a.size+b.size)*.54+(mobile.matches?22:32)));
+  }
+  if(score>bestScore){best=orbs;bestScore=score;}
+  if(score>1.2)break;
+ }
+ visible.forEach((bubble,i)=>{
+  const orb=best[i];if(!orb)return;
+  bubble.style.setProperty('--random-x',`${orb.x}px`);bubble.style.setProperty('--random-y',`${orb.y}px`);bubble.style.setProperty('--random-size',`${orb.size}px`);
+  bubble.style.setProperty('--delay',`${-Math.random()*35}s`);bubble.style.setProperty('--duration',`${26+Math.random()*19}s`);
+ });
+}
+let layoutWidth=0;
+if(water)new ResizeObserver(()=>{if(water.clientWidth===layoutWidth)return;layoutWidth=water.clientWidth;scatter();}).observe(water);
+mobile.addEventListener('change',scatter);
+scatter();
+// Rotate the memories while giving each new group its own loose arrangement.
+
 window.setInterval(()=>{
  if(paused||opening||document.hidden||dialogs.some(dialog=>dialog.open)||water?.matches(':focus-within'))return;
  const desktopCount=Number(water?.dataset.desktopCount??8),mobileCount=Number(water?.dataset.mobileCount??4);
@@ -43,6 +77,7 @@ window.setInterval(()=>{
  if(bubbles.length<=visibleCount)return;
  batch=(batch+visibleCount)%Math.max(bubbles.length,1);
  bubbles.forEach((bubble,i)=>{const slot=(i-batch+bubbles.length)%bubbles.length;bubble.classList.toggle('gallery-visible',slot<desktopCount);bubble.classList.toggle('mobile-visible',slot<mobileCount);for(let n=0;n<8;n++)bubble.classList.toggle(`bubble-slot-${n}`,slot%desktopCount===n);for(let n=0;n<4;n++)bubble.classList.toggle(`mobile-slot-${n}`,slot%mobileCount===n);});
+ scatter();
 },26000);
 // A soft parallax shift gives the bubbles distinct distances from the viewer.
 if(water && matchMedia('(pointer: fine)').matches){
