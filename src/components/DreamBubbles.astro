@@ -4,8 +4,8 @@ const {compact=false}=Astro.props;
 const dreams=(await getCollection('dreams')).sort((a,b)=>a.data.order-b.data.order);
 const memories=await Promise.all(dreams.map(async dream=>({dream,...await render(dream)})));
 ---
-<div class:list={["dream-water",{"home-bubble-water":compact}]} data-dream-water data-desktop-count={compact?4:8} data-mobile-count={compact?2:4}>
-{dreams.map((dream,index)=><button type="button" class:list={['dream-bubble',`bubble-slot-${index%8}`,`mobile-slot-${index%4}`,{'gallery-visible':index<(compact?4:8),'mobile-visible':index<(compact?2:4)}]} style={`--slot:${index};--delay:-${index*3}s;--duration:${23+index*2}s;`} data-bubble={index} aria-haspopup="dialog" aria-controls={`memory-${dream.data.number}`} aria-label={`Open dream ${dream.data.number}: ${dream.data.title}`}><span class="bubble-skin"><img src={dream.data.image} alt="" width={dream.data.width} height={dream.data.height} loading={index<4?'eager':'lazy'}/></span><span class="bubble-glint" aria-hidden="true"></span><span class="bubble-name">{dream.data.title}</span></button>)}
+<div class:list={["dream-water",{"home-bubble-water":compact}]} data-dream-water data-desktop-count={compact?6:8} data-mobile-count={compact?2:4}>
+{dreams.map((dream,index)=><button type="button" class:list={['dream-bubble',`bubble-slot-${index%8}`,`mobile-slot-${index%4}`,{'gallery-visible':index<(compact?6:8),'mobile-visible':index<(compact?2:4)}]} style={`--slot:${index};--delay:-${index*3}s;--duration:${23+index*2}s;`} data-bubble={index} aria-haspopup="dialog" aria-controls={`memory-${dream.data.number}`} aria-label={`Open dream ${dream.data.number}: ${dream.data.title}`}><span class="bubble-skin"><img src={dream.data.image} alt="" width={dream.data.width} height={dream.data.height} loading={index<4?'eager':'lazy'}/></span><span class="bubble-glint" aria-hidden="true"></span><span class="bubble-name">{dream.data.title}</span></button>)}
 
 </div>
 <div class="bubble-bottom"><p>Touch a dream.</p><button type="button" class="bubble-pause" data-bubble-pause aria-label="Pause floating dreams">Pause</button></div>
@@ -43,10 +43,10 @@ function scatter(){
  const visible=bubbles.filter(bubble=>getComputedStyle(bubble).display!=='none');
  type Orb={x:number;y:number;size:number};
  let best:Orb[]=[],bestScore=-Infinity;
- for(let attempt=0;attempt<1800;attempt++){
+ for(let attempt=0;attempt<2400;attempt++){
   const orbs:Orb[]=[];
   for(let i=0;i<visible.length;i++){
-   const base=mobile.matches?Math.min(width*.62,height*.4):Math.min(width*.24,height*.39);
+   const base=mobile.matches?Math.min(width*.62,height*.4):Math.min(width*.19,height*.32);
    const size=Math.max(64,base*(.78+Math.random()*.36));
    const margin=size*.54+(mobile.matches?18:27);
    orbs.push({size,x:margin+Math.random()*Math.max(0,width-2*margin),y:margin+Math.random()*Math.max(0,height-2*margin)});
