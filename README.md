@@ -110,6 +110,6 @@ Official references:
 
 ## Authorship and rights
 
-The author supplied the essay in Chinese and English, the dream image, and the remembered dream. Site implementation was developed with AI assistance. The About text and dream title are editorial starting points to review with the author.
+I write the essays and record the dream memories in this personal archive. The dream artwork is generated with AI from those remembered scenes. The site implementation was developed with AI assistance.
 
 No license has been selected yet. Code, writing, and images are not offered under an open-source or Creative Commons license by default. Public repository visibility does not grant reuse rights. If a code license is added later, specify separately whether it covers the original writing and artwork.
