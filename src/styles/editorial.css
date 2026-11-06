@@ -206,3 +206,27 @@ body.memory-open{overflow:hidden}.dream-reveal{width:min(1200px,calc(100% - 80px
 @media(prefers-reduced-motion:reduce){.dream-bubble .bubble-spray{display:none}.dream-bubble:is(.is-auto-popping,.is-bursting) :is(.bubble-skin,.bubble-glint){animation:none}}
 .home-bubble-preview .bubble-spray>span{width:13px;height:6px;border-top:2px solid #a58abb;border-right:1px solid #d7aac9;box-shadow:0 0 5px #b391d14d}
 .home-bubble-preview .dream-bubble:is(.is-auto-popping,.is-bursting) .bubble-glint{border-color:#a995c05c;box-shadow:0 0 7px #cab4e33d}
+
+/* Clear section hierarchy for long-form essays in both languages. */
+.threshold-design .reading > .prose :is(h2,h3){
+  margin:3.2em 0 1em;
+  padding-top:1.15em;
+  border-top:1px solid #39333e2b;
+  font-family:var(--sans);
+  font-size:clamp(1.4rem,2vw,1.65rem);
+  font-weight:650;
+  line-height:1.45;
+  letter-spacing:-.015em;
+  color:var(--ink);
+  scroll-margin-top:2rem;
+  break-after:avoid;
+}
+.threshold-design .reading > .prose[lang=zh] :is(h2,h3){
+  font-size:clamp(1.35rem,2vw,1.55rem);
+  line-height:1.65;
+  letter-spacing:.025em;
+}
+.threshold-design .reading > .prose :is(h2,h3)+p{margin-top:0}
+@media(max-width:760px){
+  .threshold-design .reading > .prose :is(h2,h3){margin-top:2.6em;padding-top:1em}
+}
